@@ -1,0 +1,58 @@
+version: "3.9"
+services:
+  dev:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    working_dir: /workspace
+    volumes:
+      - ..:/workspace
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
+      - PRICE_TABLE=PriceHistory
+      - TZ=Asia/Tokyo
+    depends_on:
+      - localstack
+      - wiremock
+    networks:
+      - app-network
+
+  localstack:
+    image: localstack/localstack:2.3.2
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=dynamodb
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+      - PERSISTENCE=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - localstack-data:/tmp/localstack
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - app-network
+
+  wiremock:
+    image: wiremock/wiremock:3.6.0
+    ports:
+      - "8080:8080"
+    command: ["--global-response-templating", "--verbose", "--port", "8080"]
+    volumes:
+      - ./wiremock/mappings:/home/wiremock/mappings:ro
+      - ./wiremock/__files:/home/wiremock/__files:ro
+    networks:
+      - app-network
+
+volumes:
+  dynamodb-data:
+  localstack-data:
+
+networks:
+  app-network:
+    driver: bridge
