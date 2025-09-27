@@ -1,4 +1,4 @@
-package com.acme.amazonpricewatcher.domain.`interface`
+package com.acme.amazonpricewatcher.domain.api
 
 import com.acme.amazonpricewatcher.config.AmazonItemProperties
 import com.acme.amazonpricewatcher.domain.entity.PriceHistory

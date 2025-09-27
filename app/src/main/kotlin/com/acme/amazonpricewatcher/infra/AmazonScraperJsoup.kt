@@ -2,7 +2,7 @@ package com.acme.amazonpricewatcher.infra
 
 import com.acme.amazonpricewatcher.config.AmazonItemProperties
 import com.acme.amazonpricewatcher.domain.entity.PriceHistory
-import com.acme.amazonpricewatcher.domain.`interface`.AmazonScraper
+import com.acme.amazonpricewatcher.domain.api.AmazonScraper
 import com.acme.amazonpricewatcher.domain.vo.MoneyJPY
 import com.acme.amazonpricewatcher.domain.vo.URL
 import com.acme.amazonpricewatcher.infra.http.SimpleHttpClient

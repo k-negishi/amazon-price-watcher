@@ -1,7 +1,7 @@
 package com.acme.amazonpricewatcher.config
 
-import com.acme.amazonpricewatcher.domain.`interface`.AmazonScraper
-import com.acme.amazonpricewatcher.domain.`interface`.LineNotifier
+import com.acme.amazonpricewatcher.domain.api.AmazonScraper
+import com.acme.amazonpricewatcher.domain.api.LineNotifier
 import com.acme.amazonpricewatcher.infra.AmazonScraperJsoup
 import com.acme.amazonpricewatcher.infra.LineNotifierLineSdk
 import com.acme.amazonpricewatcher.infra.PriceHistoryDynamoRepository

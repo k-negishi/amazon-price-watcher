@@ -1,7 +1,7 @@
 package com.acme.amazonpricewatcher.usecase
 
 import com.acme.amazonpricewatcher.domain.entity.PriceHistory
-import com.acme.amazonpricewatcher.domain.`interface`.LineNotifier
+import com.acme.amazonpricewatcher.domain.api.LineNotifier
 import org.slf4j.LoggerFactory
 
 class PriceCompareUsecase(

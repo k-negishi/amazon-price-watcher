@@ -2,7 +2,7 @@ package com.acme.amazonpricewatcher.usecase
 
 import com.acme.amazonpricewatcher.config.AmazonItemProperties
 import com.acme.amazonpricewatcher.domain.entity.PriceHistory
-import com.acme.amazonpricewatcher.domain.`interface`.AmazonScraper
+import com.acme.amazonpricewatcher.domain.api.AmazonScraper
 import com.acme.amazonpricewatcher.domain.repository.PriceHistoryRepository
 import java.time.LocalDate
 import kotlinx.coroutines.async

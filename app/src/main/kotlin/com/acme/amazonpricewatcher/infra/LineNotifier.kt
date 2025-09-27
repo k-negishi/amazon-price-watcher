@@ -1,7 +1,7 @@
 package com.acme.amazonpricewatcher.infra
 
 import com.acme.amazonpricewatcher.config.LineProperties
-import com.acme.amazonpricewatcher.domain.`interface`.LineNotifier
+import com.acme.amazonpricewatcher.domain.api.LineNotifier
 import com.linecorp.bot.messaging.client.MessagingApiClient
 import com.linecorp.bot.messaging.model.PushMessageRequest
 import com.linecorp.bot.messaging.model.TextMessage
