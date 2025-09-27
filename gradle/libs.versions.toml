@@ -1,0 +1,56 @@
+
+[versions]
+kotlin = "2.2.20"
+spring-boot = "3.5.6"
+spring-cloud = "2025.0.0"
+spring-dependency-management = "1.1.7"
+aws-sdk = "2.30.33"
+aws-lambda = "1.2.3"
+coroutines = "1.9.0"
+okhttp = "4.12.0"
+jsoup = "1.18.3"
+line-sdk = "9.8.0"
+junit = "5.11.4"
+kotest = "5.9.1"
+mockk = "1.14.5"
+testcontainers = "1.20.4"
+wiremock = "1.0-alpha-15"
+kover = "0.9.1"
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-management" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+
+[libraries]
+spring-boot-bom = { group = "org.springframework.boot", name = "spring-boot-dependencies", version.ref = "spring-boot" }
+spring-cloud-bom = { group = "org.springframework.cloud", name = "spring-cloud-dependencies", version.ref = "spring-cloud" }
+spring-boot-starter = { group = "org.springframework.boot", name = "spring-boot-starter" }
+spring-boot-starter-json = { group = "org.springframework.boot", name = "spring-boot-starter-json" }
+spring-boot-starter-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
+spring-cloud-starter-function-webflux = { group = "org.springframework.cloud", name = "spring-cloud-starter-function-webflux" }
+spring-cloud-function-kotlin = { group = "org.springframework.cloud", name = "spring-cloud-function-kotlin" }
+aws-lambda-core = { group = "com.amazonaws", name = "aws-lambda-java-core", version.ref = "aws-lambda" }
+aws-sdk-dynamodb = { group = "software.amazon.awssdk", name = "dynamodb", version.ref = "aws-sdk" }
+aws-sdk-regions = { group = "software.amazon.awssdk", name = "regions", version.ref = "aws-sdk" }
+aws-sdk-auth = { group = "software.amazon.awssdk", name = "auth", version.ref = "aws-sdk" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-reactor = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-reactor", version.ref = "coroutines" }
+kotlinx-coroutines-jdk8 = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-jdk8", version.ref = "coroutines" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+jsoup = { group = "org.jsoup", name = "jsoup", version.ref = "jsoup" }
+line-messaging-api-client = { group = "com.linecorp.bot", name = "line-bot-messaging-api-client", version.ref = "line-sdk" }
+jackson-module-kotlin = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin" }
+junit-bom = { group = "org.junit", name = "junit-bom", version.ref = "junit" }
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
+kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+testcontainers-bom = { group = "org.testcontainers", name = "testcontainers-bom", version.ref = "testcontainers" }
+testcontainers-core = { group = "org.testcontainers", name = "testcontainers" }
+testcontainers-junit = { group = "org.testcontainers", name = "junit-jupiter" }
+testcontainers-localstack = { group = "org.testcontainers", name = "localstack" }
+testcontainers-wiremock = { group = "org.wiremock.integrations.testcontainers", name = "wiremock-testcontainers-module", version.ref = "wiremock" }
