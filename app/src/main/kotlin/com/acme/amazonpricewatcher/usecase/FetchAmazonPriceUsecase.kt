@@ -4,7 +4,6 @@ import com.acme.amazonpricewatcher.config.AmazonItemProperties
 import com.acme.amazonpricewatcher.domain.entity.PriceHistory
 import com.acme.amazonpricewatcher.domain.`interface`.AmazonScraper
 import com.acme.amazonpricewatcher.domain.repository.PriceHistoryRepository
-import java.time.Clock
 import java.time.LocalDate
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -15,8 +14,7 @@ import kotlinx.coroutines.sync.withPermit
 class FetchAmazonPriceUsecase(
     private val properties: AmazonItemProperties,
     private val scraper: AmazonScraper,
-    private val repository: PriceHistoryRepository,
-    private val clock: Clock
+    private val repository: PriceHistoryRepository
 ) {
     suspend fun execute(
         targetDate: LocalDate
