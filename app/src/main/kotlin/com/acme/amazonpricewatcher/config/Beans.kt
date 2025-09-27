@@ -7,19 +7,18 @@ import com.acme.amazonpricewatcher.infra.LineNotifierLineSdk
 import com.acme.amazonpricewatcher.infra.PriceHistoryDynamoRepository
 import com.acme.amazonpricewatcher.infra.http.SimpleHttpClient
 import com.acme.amazonpricewatcher.usecase.FetchAmazonPriceUsecase
+import com.acme.amazonpricewatcher.usecase.FetchPriceHistoryUsecase
 import com.acme.amazonpricewatcher.usecase.Orchestrate
 import com.acme.amazonpricewatcher.usecase.PriceCompareUsecase
 import java.net.URI
 import java.time.Clock
 import java.time.Duration
 import java.time.ZoneId
-import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Profile
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient
@@ -67,8 +66,10 @@ class Beans {
     }
 
     @Bean
-    fun simpleHttpClient(properties: AmazonItemProperties, okHttpClient: OkHttpClient): SimpleHttpClient =
-        SimpleHttpClient(
+    fun simpleHttpClient(
+        properties: AmazonItemProperties,
+        okHttpClient: OkHttpClient
+    ): SimpleHttpClient = SimpleHttpClient(
             okHttpClient = okHttpClient,
             userAgent = properties.scrape.userAgent,
             timeout = Duration.ofMillis(properties.scrape.timeoutMillis),
@@ -77,54 +78,52 @@ class Beans {
         )
 
     @Bean
-    fun amazonScraper(simpleHttpClient: SimpleHttpClient): AmazonScraper = AmazonScraperJsoup(simpleHttpClient)
+    fun amazonScraper(
+        simpleHttpClient: SimpleHttpClient
+    ): AmazonScraper = AmazonScraperJsoup(simpleHttpClient)
 
     @Bean
-    fun collectToday(
+    fun fetchAmazonPriceUsecase(
         properties: AmazonItemProperties,
         scraper: AmazonScraper,
         priceHistoryRepository: PriceHistoryDynamoRepository,
-        clock: Clock,
-        zoneId: ZoneId,
-        @Value($$"${COLLECT_PARALLEL:4}") parallelism: Int
     ) = FetchAmazonPriceUsecase(
         properties = properties,
         scraper = scraper,
         repository = priceHistoryRepository,
-        clock = clock,
-        zoneId = zoneId,
-        parallelism = parallelism,
-        dispatcher = Dispatchers.IO
     )
 
     @Bean
-    fun compareAndNotify(
+    fun fetchPriceHistoryUsecase(
         properties: AmazonItemProperties,
         repository: PriceHistoryDynamoRepository,
-        clock: Clock,
-        zoneId: ZoneId
-    ) = PriceCompareUsecase(
+    ): FetchPriceHistoryUsecase = FetchPriceHistoryUsecase(
         properties = properties,
         repository = repository,
-        clock = clock,
-        zoneId = zoneId
+    )
+
+    @Bean
+    fun priceCompareUsecase(
+        lineNotifier: LineNotifier,
+    ) = PriceCompareUsecase(
+        lineNotifier = lineNotifier,
     )
 
     @Bean
     fun orchestrate(
         fetchAmazonPriceUsecase: FetchAmazonPriceUsecase,
+        fetchPriceHistoryUsecase: FetchPriceHistoryUsecase,
         priceCompareUsecase: PriceCompareUsecase,
-        lineNotifier: LineNotifier,
     ) = Orchestrate(
         fetchAmazonPriceUsecase = fetchAmazonPriceUsecase,
-        priceCompareUsecase = priceCompareUsecase,
-        lineNotifier = lineNotifier,
+        fetchPriceHistoryUsecase = fetchPriceHistoryUsecase,
+        priceCompareUsecase = priceCompareUsecase
     )
 
-
     @Bean
-    @Profile("!local")
-    fun lineNotifierLineSdk(lineProperties: LineProperties): LineNotifier {
+    fun lineNotifierLineSdk(
+        lineProperties: LineProperties
+    ): LineNotifier {
         return LineNotifierLineSdk(lineProperties)
     }
 }
