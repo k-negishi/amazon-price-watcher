@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: AmazonPriceWatcher
+  cloud:
+    function:
+      definition: amazonPriceWatcher
+  main:
+    web-application-type: reactive
+
+amazon:
+  items:
+    - url: https://www.amazon.co.jp/dp/XXXXXXXXXX
+      label: Sample Item
+  scrape:
+    user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36
+    timeout-millis: 6000
+    retry:
+      max-attempts: 3
+      delay-millis: 500
+  dynamodb:
+    region: ap-northeast-1
+
+line:
+  channel-token: ${LINE_CHANNEL_TOKEN:dummy}
+  target-user-id: ${LINE_TARGET_USER_ID:dummy}
+  enabled: ${LINE_ENABLED:true}
+
+logging:
+  level:
+    com.acme.amazonpricewatcher: INFO
