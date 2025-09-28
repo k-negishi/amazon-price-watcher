@@ -10,8 +10,11 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 
-class FetchAmazonPriceUsecase(
+@Service
+class FetchAmazonPriceUsecase @Autowired constructor(
     private val properties: AmazonItemProperties,
     private val scraper: AmazonScraper,
     private val repository: PriceHistoryRepository

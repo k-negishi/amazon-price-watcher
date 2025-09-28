@@ -8,15 +8,21 @@ import okhttp3.Request
 import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.time.Duration
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Component
 
-class SimpleHttpClient(
+@Component
+class SimpleHttpClient @Autowired constructor(
     private val okHttpClient: OkHttpClient,
-    private val userAgent: String,
-    private val timeout: Duration,
-    private val retryMaxAttempts: Int,
-    private val retryDelay: Duration
+    @Value("\${amazon.item.scrape.user-agent}") private val userAgent: String,
+    @Value("\${amazon.item.scrape.timeout-millis}") private val timeoutMillis: Long,
+    @Value("\${amazon.item.scrape.retry.max-attempts}") private val retryMaxAttempts: Int,
+    @Value("\${amazon.item.scrape.retry.delay-millis}") private val retryDelayMillis: Long
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
+    private val timeout: Duration = Duration.ofMillis(timeoutMillis)
+    private val retryDelay: Duration = Duration.ofMillis(retryDelayMillis)
 
     suspend fun get(url: String): String = executeWithRetry {
         val request = Request.Builder()

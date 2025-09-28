@@ -4,10 +4,14 @@ import java.time.LocalDate
 import java.time.ZoneId
 
 
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
+
 /**
  * 今日の価格を収集し、昨日と比較して値下がりがあれば通知する一連の処理を実行します。
  */
-class Orchestrate(
+@Service
+class Orchestrate @Autowired constructor(
     private val fetchAmazonPriceUsecase: FetchAmazonPriceUsecase,
     private val fetchPriceHistoryUsecase: FetchPriceHistoryUsecase,
     private val priceCompareUsecase: PriceCompareUsecase,

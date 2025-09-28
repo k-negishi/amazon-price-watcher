@@ -3,8 +3,11 @@ package com.acme.amazonpricewatcher.usecase
 import com.acme.amazonpricewatcher.domain.entity.PriceHistory
 import com.acme.amazonpricewatcher.domain.api.LineNotifier
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 
-class PriceCompareUsecase(
+@Service
+class PriceCompareUsecase @Autowired constructor(
     private val lineNotifier: LineNotifier
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
