@@ -6,8 +6,11 @@ import com.acme.amazonpricewatcher.domain.entity.PriceHistory
 import com.acme.amazonpricewatcher.domain.repository.PriceHistoryRepository
 import org.slf4j.LoggerFactory
 import java.time.LocalDate
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 
-class FetchPriceHistoryUsecase(
+@Service
+class FetchPriceHistoryUsecase @Autowired constructor(
     private val properties: AmazonItemProperties,
     private val repository: PriceHistoryRepository
 ) {
