@@ -1,6 +1,6 @@
 
 [versions]
-kotlin = "2.2.20"
+kotlin = "2.2.10"
 spring-boot = "3.5.6"
 spring-cloud = "2025.0.0"
 spring-dependency-management = "1.1.7"
@@ -16,8 +16,10 @@ mockk = "1.14.5"
 testcontainers = "1.20.4"
 wiremock = "1.0-alpha-15"
 kover = "0.9.1"
+detekt = "2.0.0-alpha.0"
 
 [plugins]
+detekt = { id = "dev.detekt", version.ref = "detekt" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }

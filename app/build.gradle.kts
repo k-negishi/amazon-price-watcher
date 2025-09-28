@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.spring)
     alias(libs.plugins.kover)
+    alias(libs.plugins.detekt)
 }
 
 java {
@@ -95,6 +96,10 @@ tasks.withType<KotlinCompile> {
         freeCompilerArgs.set(listOf("-Xjsr305=strict"))
         jvmTarget.set(JvmTarget.JVM_21)
     }
+}
+
+detekt {
+    baseline = file("detekt-baseline.xml")
 }
 
 //koverReport {

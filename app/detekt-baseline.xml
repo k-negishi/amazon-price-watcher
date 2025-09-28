@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>MagicNumber:TTL.kt:TTL.Companion$7</ID>
+    <ID>MagicNumber:TTL.kt:TTL.Companion$9</ID>
+    <ID>MatchingDeclarationName:CompareAndNotifyUsecas.kt:PriceCompareUsecase</ID>
+    <ID>MatchingDeclarationName:LineNotifier.kt:LineNotifierLineSdk : LineNotifier</ID>
+    <ID>MaxLineLength:ItemProperties.kt:AmazonItemProperties.Companion$private const val USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"</ID>
+    <ID>NewLineAtEndOfFile:AmazonScraper.kt:com.acme.amazonpricewatcher.domain.api.AmazonScraper.kt</ID>
+    <ID>NewLineAtEndOfFile:FetchAmazonPriceUsecase.kt:com.acme.amazonpricewatcher.usecase.FetchAmazonPriceUsecase.kt</ID>
+    <ID>NewLineAtEndOfFile:FetchPriceHistoryUsecase.kt:com.acme.amazonpricewatcher.usecase.FetchPriceHistoryUsecase.kt</ID>
+    <ID>NewLineAtEndOfFile:LineNotifier.kt:com.acme.amazonpricewatcher.domain.api.LineNotifier.kt</ID>
+    <ID>NewLineAtEndOfFile:PriceHistory.kt:com.acme.amazonpricewatcher.domain.entity.PriceHistory.kt</ID>
+    <ID>ReturnCount:PriceHistoryDynamoRepository.kt:PriceHistoryDynamoRepository$override suspend fun findById( url: URL, date: LocalDate ): PriceHistory?</ID>
+    <ID>ThrowsCount:AmazonScraperJsoup.kt:AmazonScraperJsoup$override suspend fun scrape( item: AmazonItemProperties.ItemConfig, targetDate: LocalDate ): PriceHistory</ID>
+    <ID>TooGenericExceptionCaught:FetchPriceHistoryUsecase.kt:FetchPriceHistoryUsecase$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:SimpleHttpClient.kt:SimpleHttpClient$ex: Throwable</ID>
+    <ID>TooManyFunctions:Beans.kt:Beans</ID>
+  </CurrentIssues>
+</SmellBaseline>
