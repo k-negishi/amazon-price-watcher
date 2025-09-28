@@ -56,3 +56,4 @@ testcontainers-core = { group = "org.testcontainers", name = "testcontainers" }
 testcontainers-junit = { group = "org.testcontainers", name = "junit-jupiter" }
 testcontainers-localstack = { group = "org.testcontainers", name = "localstack" }
 testcontainers-wiremock = { group = "org.wiremock.integrations.testcontainers", name = "wiremock-testcontainers-module", version.ref = "wiremock" }
+detekt-rules-ktlint-wrapper = { group = "dev.detekt", name = "detekt-rules-ktlint-wrapper", version.ref = "detekt" }

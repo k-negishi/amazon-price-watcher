@@ -57,6 +57,8 @@ dependencies {
     testImplementation(libs.testcontainers.localstack)
     testImplementation(libs.testcontainers.wiremock)
     testImplementation(libs.aws.sdk.dynamodb)
+
+    detektPlugins(libs.detekt.rules.ktlint.wrapper)
 }
 
 tasks.withType<Test> {
