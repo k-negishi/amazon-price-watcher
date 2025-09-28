@@ -1,0 +1,9 @@
+repos:
+-   repo: local
+    hooks:
+    -   id: detekt
+        name: detekt
+        entry: ./gradlew detekt
+        language: system
+        types: [kotlin]
+        pass_filenames: false

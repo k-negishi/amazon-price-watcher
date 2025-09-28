@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.spring)
     alias(libs.plugins.kover)
+    alias(libs.plugins.detekt)
 }
 
 java {
@@ -56,6 +57,8 @@ dependencies {
     testImplementation(libs.testcontainers.localstack)
     testImplementation(libs.testcontainers.wiremock)
     testImplementation(libs.aws.sdk.dynamodb)
+
+    detektPlugins(libs.detekt.rules.ktlint.wrapper)
 }
 
 tasks.withType<Test> {
@@ -95,6 +98,10 @@ tasks.withType<KotlinCompile> {
         freeCompilerArgs.set(listOf("-Xjsr305=strict"))
         jvmTarget.set(JvmTarget.JVM_21)
     }
+}
+
+detekt {
+    baseline = file("detekt-baseline.xml")
 }
 
 //koverReport {
