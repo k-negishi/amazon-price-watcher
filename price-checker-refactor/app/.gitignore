@@ -1,0 +1,11 @@
+# Gradle
+.gradle
+build/
+
+# IDE files
+.idea/
+*.iml
+out/
+
+# Local files
+.DS_Store
