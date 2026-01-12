@@ -20,6 +20,11 @@ data class AmazonItemProperties(
             "#priceblock_ourprice",
             "#priceblock_dealprice",
             "#corePriceDisplay_desktop_feature_div span.a-offscreen",
+            "#corePriceDisplay_desktop_feature_div .a-price .a-offscreen",
+            "#corePriceDisplay_desktop_feature_div .a-price-whole",
+            "#corePrice_feature_div .a-price .a-offscreen",
+            "#corePrice_feature_div .a-price-whole",
+            "#price_inside_buybox",
             "#centerCol span.a-offscreen"
         )
     )

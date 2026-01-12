@@ -8,9 +8,7 @@ spring:
     web-application-type: reactive
 
 amazon:
-  items:
-    - url: https://www.amazon.co.jp/dp/XXXXXXXXXX
-      label: Sample Item
+  items: ${AMAZON_ITEMS:[]}
   scrape:
     user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36
     timeout-millis: 6000
@@ -28,3 +26,6 @@ line:
 logging:
   level:
     com.acme.amazonpricewatcher: INFO
+
+app:
+  run-on-startup: ${RUN_ON_STARTUP:false}

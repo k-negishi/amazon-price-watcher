@@ -1,22 +1,25 @@
 package com.acme.amazonpricewatcher.infra.http
 
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.Dispatchers
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import org.slf4j.LoggerFactory
+import com.acme.amazonpricewatcher.config.AmazonItemProperties
+import com.acme.amazonpricewatcher.fw.logger
 import java.io.IOException
 import java.time.Duration
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.springframework.stereotype.Component
 
+@Component
 class SimpleHttpClient(
     private val okHttpClient: OkHttpClient,
-    private val userAgent: String,
-    private val timeout: Duration,
-    private val retryMaxAttempts: Int,
-    private val retryDelay: Duration
+    private val properties: AmazonItemProperties
 ) {
-    private val logger = LoggerFactory.getLogger(javaClass)
+    private val userAgent = properties.scrape.userAgent
+    private val timeout = Duration.ofMillis(properties.scrape.timeoutMillis)
+    private val retryMaxAttempts = properties.scrape.retry.maxAttempts
+    private val retryDelay = Duration.ofMillis(properties.scrape.retry.delayMillis)
 
     suspend fun get(url: String): String = executeWithRetry {
         val request = Request.Builder()

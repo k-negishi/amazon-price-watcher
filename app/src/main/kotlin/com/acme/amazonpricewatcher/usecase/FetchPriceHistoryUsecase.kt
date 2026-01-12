@@ -4,15 +4,15 @@ import com.acme.amazonpricewatcher.config.AmazonItemProperties
 import com.acme.amazonpricewatcher.domain.vo.URL
 import com.acme.amazonpricewatcher.domain.entity.PriceHistory
 import com.acme.amazonpricewatcher.domain.repository.PriceHistoryRepository
-import org.slf4j.LoggerFactory
 import java.time.LocalDate
+import com.acme.amazonpricewatcher.fw.logger
+import org.springframework.stereotype.Service
 
+@Service
 class FetchPriceHistoryUsecase(
     private val properties: AmazonItemProperties,
     private val repository: PriceHistoryRepository
 ) {
-    private val logger = LoggerFactory.getLogger(javaClass)
-
     suspend fun execute(
         targetDate: LocalDate
     ): List<PriceHistory> {

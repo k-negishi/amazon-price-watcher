@@ -14,26 +14,37 @@ AmazonPriceWatcher は Amazon 商品価格を日次で取得し、前日より�
 - DynamoDB (TTL 7 日)
 - LINE Messaging API で通知
 - SAM による IaC
-- Testcontainers (LocalStack + WireMock) による E2E テスト
 
 ## セットアップ
-1. Docker を起動し DynamoDB Local を用意します。
+1. ローカル用の環境変数ファイルを用意します。
    ```bash
-   docker compose -f docker/docker-compose.local.yml up -d
-   docker/scripts/local-init.sh
+   cp .env.local.example .env.local
+   cp amazon-items.json.example amazon-items.json
    ```
-2. アプリケーションをローカルで起動します。
+2. `.env.local` と `amazon-items.json` を編集し、実際の値を設定します。
+
+3. アプリケーションをローカルで起動します。
    ```bash
-   SPRING_PROFILES_ACTIVE=local ./gradlew bootRun
+   set -a
+   . ./.env.local
+   set +a
+   export RUN_ON_STARTUP=true
+   export SPRING_MAIN_WEB_APPLICATION_TYPE=none
+   ./gradlew bootRun
    ```
-   `LineNotifierStub` により通知内容はログへ出力されます。
+
+## ローカル実行（Docker）
+```bash
+docker compose -f docker/local/docker-compose.yml up --build
+```
+- `.env.local` の `AMAZON_ITEMS` は JSON 文字列として読み込まれます。
+- `.env.local` と `~/.aws` を利用して実AWS/実Amazonへ接続します。
 
 ## テスト & カバレッジ
 ```bash
-./gradlew unitTest e2eTest koverXmlReport
+./gradlew unitTest koverXmlReport
 ```
 - `unitTest`: UseCase 層のユニットテスト (Kotest + MockK)
-- `e2eTest`: Testcontainers (LocalStack + WireMock) による E2E テスト
 - `koverXmlReport`: `app/build/reports/kover/coverage.xml` にレポート出力
 
 ## CI/CD
@@ -44,7 +55,19 @@ GitHub Actions による自動テスト・自動デプロイを行う。
 ## デプロイ手順（ローカル確認）
 ```bash
 ./gradlew bootJar
-sam build --use-container
-sam deploy --guided
+sam build --use-container --template-file infra/sam/template.yaml
+sam deploy --template-file infra/sam/template.yaml
 ```
 
+## SSM への .env.prod 反映
+```bash
+# 必要に応じて .env.deploy に AWS_REGION などを定義
+cp .env.deploy.example .env.deploy
+./infra/scripts/ssm-upload.sh
+```
+
+## Lambda コンテナ（ECR）
+```bash
+docker build -f docker/lambda/Dockerfile -t <ecr-repo>:<tag> .
+docker push <ecr-repo>:<tag>
+```

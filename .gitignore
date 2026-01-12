@@ -10,3 +10,8 @@ app/build/
 coverage.txt
 /NOTE/
 /app/src/main/resources/application-local.yml
+.env.local
+.env
+amazon-items.json
+.env.prod
+/.env.deploy

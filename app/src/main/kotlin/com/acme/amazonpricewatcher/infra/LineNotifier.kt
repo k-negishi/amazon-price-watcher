@@ -2,19 +2,19 @@ package com.acme.amazonpricewatcher.infra
 
 import com.acme.amazonpricewatcher.config.LineProperties
 import com.acme.amazonpricewatcher.domain.api.LineNotifier
+import com.acme.amazonpricewatcher.fw.logger
 import com.linecorp.bot.messaging.client.MessagingApiClient
 import com.linecorp.bot.messaging.model.PushMessageRequest
 import com.linecorp.bot.messaging.model.TextMessage
 import java.util.UUID
 import kotlinx.coroutines.future.await
-import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
 
+@Component
 class LineNotifierLineSdk(
     private val properties: LineProperties
 ) : LineNotifier {
-    private val logger = LoggerFactory.getLogger(javaClass)
-
     private val client: MessagingApiClient by lazy {
         MessagingApiClient.builder(properties.channelToken).build()
     }

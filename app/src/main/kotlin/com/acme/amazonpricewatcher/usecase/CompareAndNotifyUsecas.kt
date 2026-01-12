@@ -2,13 +2,13 @@ package com.acme.amazonpricewatcher.usecase
 
 import com.acme.amazonpricewatcher.domain.entity.PriceHistory
 import com.acme.amazonpricewatcher.domain.api.LineNotifier
-import org.slf4j.LoggerFactory
+import com.acme.amazonpricewatcher.fw.logger
+import org.springframework.stereotype.Service
 
+@Service
 class PriceCompareUsecase(
     private val lineNotifier: LineNotifier
 ) {
-    private val logger = LoggerFactory.getLogger(javaClass)
-
     data class PriceDrop(
         val url: String,
         val itemName: String,

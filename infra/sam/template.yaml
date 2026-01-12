@@ -1,0 +1,71 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Amazon Price Watcher Lambda
+
+Parameters:
+  AmazonItems:
+    Type: String
+    Description: JSON array of Amazon items to monitor
+  LineChannelToken:
+    Type: String
+    Description: LINE Messaging API Channel Token
+    NoEcho: true
+  LineTargetUserId:
+    Type: String
+    Description: LINE User ID to send notifications
+
+Globals:
+  Function:
+    Runtime: java21
+    MemorySize: 512
+    Timeout: 60
+    Tracing: PassThrough
+
+Resources:
+  AmazonPriceWatcherFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: AmazonPriceWatcher
+      CodeUri: app/build/libs/
+      Handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest
+      Environment:
+        Variables:
+          PRICE_TABLE: PriceHistory
+          TZ: Asia/Tokyo
+          AMAZON_ITEMS: !Ref AmazonItems
+          LINE_CHANNEL_TOKEN: !Ref LineChannelToken
+          LINE_TARGET_USER_ID: !Ref LineTargetUserId
+          LINE_ENABLED: true
+      Events:
+        Daily:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 0 * * ? *)
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - DynamoDBCrudPolicy:
+            TableName: !Ref PriceHistoryTable
+      Tags:
+        Application: AmazonPriceWatcher
+  PriceHistoryTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: PriceHistory
+      BillingMode: PAY_PER_REQUEST
+      TimeToLiveSpecification:
+        AttributeName: expireAt
+        Enabled: true
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+Outputs:
+  FunctionName:
+    Description: AmazonPriceWatcher Lambda Function Name
+    Value: !Ref AmazonPriceWatcherFunction
+  TableName:
+    Description: DynamoDB Table Name
+    Value: !Ref PriceHistoryTable

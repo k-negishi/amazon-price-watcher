@@ -1,0 +1,23 @@
+services:
+  app:
+    build:
+      context: ../..
+      dockerfile: docker/local/Dockerfile
+    working_dir: /workspace
+    volumes:
+      - ../..:/workspace
+      - ~/.aws:/home/gradle/.aws:ro
+    env_file:
+      - ../../.env.local
+    environment:
+      TZ: Asia/Tokyo
+      RUN_ON_STARTUP: "true"
+      SPRING_MAIN_WEB_APPLICATION_TYPE: none
+    command:
+      - bash
+      - -lc
+      - |
+        echo "[container] $(date -Iseconds)"
+        export AMAZON_ITEMS="$(cat /workspace/amazon-items.json)"
+        echo "[jvm] $(date -Iseconds)"
+        ./gradlew bootRun

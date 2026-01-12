@@ -7,14 +7,17 @@ import com.acme.amazonpricewatcher.domain.vo.TTL
 import com.acme.amazonpricewatcher.domain.vo.URL
 import java.time.LocalDate
 import kotlinx.coroutines.future.await
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Repository
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue
 import software.amazon.awssdk.services.dynamodb.model.GetItemRequest
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest
 
+@Repository
 class PriceHistoryDynamoRepository(
     private val client: DynamoDbAsyncClient,
-    private val tableName: String
+    @Value("\${PRICE_TABLE:PriceHistory}") private val tableName: String
 ) : PriceHistoryRepository {
 
     override suspend fun save(snapshot: PriceHistory) {
@@ -25,7 +28,7 @@ class PriceHistoryDynamoRepository(
             "date" to buildStringAttribute(snapshot.date.toString()),
             "itemName" to buildStringAttribute(snapshot.itemName),
             "price" to buildNumberAttribute(snapshot.price.v.toString()),
-            "ttl" to buildNumberAttribute(TTL.default().toString()),
+            "expireAt" to buildNumberAttribute(TTL.default().toString()),
         )
 
         val request = PutItemRequest.builder()
@@ -58,7 +61,7 @@ class PriceHistoryDynamoRepository(
 
         val url = item["url"]?.s() ?: return null
         val price = item["price"]?.n()?.let { MoneyJPY.from(it) } ?: return null
-        val itemName = item["title"]?.s() ?: return null
+        val itemName = item["itemName"]?.s() ?: return null
         val date = item["date"]?.s()?.let(LocalDate::parse) ?: return null
 
         return PriceHistory(

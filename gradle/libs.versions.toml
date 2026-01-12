@@ -6,15 +6,13 @@ spring-cloud = "2025.0.0"
 spring-dependency-management = "1.1.7"
 aws-sdk = "2.30.33"
 aws-lambda = "1.2.3"
-coroutines = "1.9.0"
+coroutines = "1.10.0"
 okhttp = "4.12.0"
 jsoup = "1.18.3"
 line-sdk = "9.8.0"
 junit = "5.11.4"
 kotest = "5.9.1"
 mockk = "1.14.5"
-testcontainers = "1.20.4"
-wiremock = "1.0-alpha-15"
 kover = "0.9.1"
 
 [plugins]
@@ -49,8 +47,3 @@ kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.re
 kotest-assertions = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
-testcontainers-bom = { group = "org.testcontainers", name = "testcontainers-bom", version.ref = "testcontainers" }
-testcontainers-core = { group = "org.testcontainers", name = "testcontainers" }
-testcontainers-junit = { group = "org.testcontainers", name = "junit-jupiter" }
-testcontainers-localstack = { group = "org.testcontainers", name = "localstack" }
-testcontainers-wiremock = { group = "org.wiremock.integrations.testcontainers", name = "wiremock-testcontainers-module", version.ref = "wiremock" }

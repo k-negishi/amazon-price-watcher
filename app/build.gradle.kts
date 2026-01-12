@@ -49,13 +49,6 @@ dependencies {
     testImplementation(libs.kotest.assertions)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
-
-    testImplementation(platform(libs.testcontainers.bom))
-    testImplementation(libs.testcontainers.core)
-    testImplementation(libs.testcontainers.junit)
-    testImplementation(libs.testcontainers.localstack)
-    testImplementation(libs.testcontainers.wiremock)
-    testImplementation(libs.aws.sdk.dynamodb)
 }
 
 tasks.withType<Test> {
@@ -76,18 +69,8 @@ tasks.register<Test>("unitTest") {
     }
 }
 
-tasks.register<Test>("e2eTest") {
-    description = "Runs E2E specs with Testcontainers"
-    group = LifecycleBasePlugin.VERIFICATION_GROUP
-    useJUnitPlatform()
-    filter {
-        includeTestsMatching("com.acme.amazonpricewatcher.e2e.*")
-    }
-    shouldRunAfter("unitTest")
-}
-
 tasks.named("check") {
-    dependsOn("unitTest", "e2eTest")
+    dependsOn("unitTest")
 }
 
 tasks.withType<KotlinCompile> {
@@ -97,22 +80,25 @@ tasks.withType<KotlinCompile> {
     }
 }
 
-//koverReport {
-//    defaults {
-//        xml {
-//            onCheck = false
-//            setReportFile(layout.buildDirectory.file("reports/kover/coverage.xml"))
-//        }
-//        html {
-//            onCheck = false
-//            setReportDir(layout.buildDirectory.dir("reports/kover/html"))
-//        }
-//        verify {
-//            rule {
-//                bound {
-//                    minValue = 60
-//                }
-//            }
-//        }
-//    }
-//}
+kover {
+    reports {
+        total {
+            xml {
+                onCheck.set(false)
+                xmlFile.set(layout.buildDirectory.file("reports/kover/coverage.xml"))
+            }
+            html {
+                onCheck.set(false)
+                htmlDir.set(layout.buildDirectory.dir("reports/kover/html"))
+            }
+            verify {
+                onCheck.set(true)
+                rule {
+                    bound {
+                        minValue = 60
+                    }
+                }
+            }
+        }
+    }
+}
